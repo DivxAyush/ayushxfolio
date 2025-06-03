@@ -1,103 +1,208 @@
-import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+"use client";
+import { Box, Button, Typography } from "@mui/material";
+import { Github, Linkedin, Mail, FileText, MapPin } from "lucide-react"; // icons from lucide-react
+import { useState } from "react";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+export default function HeroSection() {
+
+ const iconBoxes = [
+  { icon: <Github size={32} />, label: "GitHub" },
+  { icon: <Linkedin size={32} />, label: "LinkedIn" },
+  { icon: <Mail size={32} />, label: "Mail" },
+  { icon: <FileText size={32} />, label: "Resume" },
+ ];
+
+ // Button click handlers (optional)
+ const handleResume = () => {
+  window.open("/resume.pdf", "_blank");
+ };
+ const handleGithub = () => {
+  window.open("https://github.com/yourusername", "_blank");
+ };
+ const handleLinkedin = () => {
+  window.open("https://linkedin.com/in/yourprofile", "_blank");
+ };
+ const handleMail = () => {
+  window.location.href = "mailto:haquedot@gmail.com";
+ };
+
+ // Common hover effect style for buttons
+ const buttonSx = {
+  backgroundColor: "rgba(255,255,255,0.15)",
+  backdropFilter: "blur(8px)",
+  borderRadius: 2,
+  border: "1px solid rgba(200,200,200,0.4)",
+  color: "white",
+  width: 37,
+  height: 32,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 1,
+  cursor: "pointer",
+  transition: "transform 0.3s ease",
+  "&:hover": {
+   transform: "perspective(600px) rotateX(8deg) rotateY(8deg)",
+   backgroundColor: "rgba(255,255,255,0.25)",
+   boxShadow: "0 8px 16px rgba(255, 255, 255, 0.06)",
+  },
+ };
+ 
+  const buttonSxResume = {
+  backgroundColor: "rgba(255,255,255,0.15)",
+  backdropFilter: "blur(8px)",
+  borderRadius: 2,
+  border: "1px solid rgba(200,200,200,0.4)",
+  color: "white",
+  width: 90,
+  height: 32,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 1,
+  cursor: "pointer",
+  transition: "transform 0.3s ease",
+  "&:hover": {
+   transform: "perspective(600px) rotateX(8deg) rotateY(8deg)",
+   backgroundColor: "rgba(255,255,255,0.25)",
+   boxShadow: "0 8px 16px rgba(255, 255, 255, 0.01)",
+  },
+ };
+
+
+ return (
+  <Box
+   sx={{
+    display: "grid",
+    gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
+    gap: 6,
+    minHeight: "100vh",
+    p: { xs: 3, sm: 6 },
+    fontFamily: "'Inter', sans-serif", // or your font variable
+    color: "white",
+   }}
+  >
+   {/* Left side */}
+   <Box
+    sx={{
+     display: "flex",
+     flexDirection: "column",
+     justifyContent: "center",
+     gap: 2,
+     maxWidth: 600,
+    }}
+   >
+    <Typography variant="h4" fontWeight="bold" sx={{ lineHeight: 1.1 }}>
+     Ayush Kumar <br />
+     <Typography
+      component="span"
+      variant="h6"
+      fontWeight="medium"
+      color="secondary.main"
+     >
+      Software Engineer
+     </Typography>
+    </Typography>
+
+    <Box sx={{ display: "flex", gap: 4, opacity: 0.8, alignItems: "center" }}>
+     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Mail size={16} />
+      <Typography variant="body1">ayush21929a@gmail.com</Typography>
+     </Box>
+
+     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <MapPin size={16} />
+      <Typography variant="body1">Kanpur, India</Typography>
+     </Box>
+    </Box>
+
+    <Typography variant="body1" sx={{ mt: 2, opacity: 0.85 }}>
+     A goal-oriented software developer with experience in building web
+     applications using modern technologies like React, Next.js, and more.
+     Seeking to leverage my technical skills to deliver exceptional user
+     experiences.
+    </Typography>
+
+    {/* Buttons */}
+    <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 4 }}>
+     <Box
+      component="button"
+      onClick={handleResume}
+      sx={buttonSxResume}
+      aria-label="Resume"
+     >
+      <FileText size={15} />
+      Resume
+     </Box>
+
+     <Box
+      component="button"
+      onClick={handleGithub}
+      sx={buttonSx}
+      aria-label="GitHub"
+     >
+      <Github size={15} />
+     </Box>
+
+     <Box
+      component="button"
+      onClick={handleLinkedin}
+      sx={buttonSx}
+      aria-label="LinkedIn"
+     >
+      <Linkedin size={15} />
+     </Box>
+
+     <Box
+      component="button"
+      onClick={handleMail}
+      sx={buttonSx}
+      aria-label="Mail"
+     >
+      <Mail size={15} />
+     </Box>
+    </Box>
+   </Box>
+
+   {/* Right side: 2x2 grid icons */}
+   <Box
+    sx={{
+     display: "grid",
+     gridTemplateColumns: "repeat(2, 1fr)",
+     gridTemplateRows: "repeat(2, 1fr)",
+     gap: 4,
+     placeItems: "center",
+     mt: { xs: 6, lg: 0 },
+    }}
+   >
+    {iconBoxes.map(({ icon, label }, i) => (
+     <Box
+      key={i}
+      sx={{
+       width: 120,
+       height: 120,
+       borderRadius: 3,
+       backgroundColor: "rgba(255,255,255,0.1)",
+       border: "1px solid rgba(200,200,200,0.3)",
+       backdropFilter: "blur(6px)",
+       display: "flex",
+       alignItems: "center",
+       justifyContent: "center",
+       cursor: "default",
+       transition: "transform 0.3s ease",
+       "&:hover": {
+        transform: "scale(1.1) rotate(5deg)",
+        boxShadow: "0 8px 20px rgba(255,255,255,0.2)",
+       },
+      }}
+      aria-label={label}
+      role="img"
+     >
+      {icon}
+     </Box>
+    ))}
+   </Box>
+  </Box>
+ );
 }
