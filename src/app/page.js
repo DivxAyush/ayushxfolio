@@ -3,7 +3,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { Github, Linkedin, Mail, FileText, MapPin } from "lucide-react"; // icons from lucide-react
 import { useState } from "react";
-
 export default function HeroSection() {
 
  const iconBoxes = [
