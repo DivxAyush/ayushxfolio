@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box, keyframes, Typography } from "@mui/material";
 import { Github, Linkedin, Mail, FileText, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -84,6 +84,49 @@ export default function HeroSection() {
   animate: { scale: 1, opacity: 1, transition: { duration: 0.7, ease: "easeOut" } },
  };
 
+ const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+   opacity: 1,
+   transition: {
+    staggerChildren: 0.05,
+    delayChildren: 0.2,
+   },
+  },
+ };
+
+ const wordVariants = {
+  hidden: {
+   opacity: 0,
+   y: 20,
+   filter: "blur(4px)",
+  },
+  visible: {
+   opacity: 1,
+   y: 0,
+   filter: "blur(0px)",
+   transition: {
+    duration: 0.4,
+    ease: "easeOut",
+   },
+  },
+ };
+ 
+ 
+const ripple = keyframes`
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.4);
+    opacity: 0;
+  }
+`;
+
  return (
   <Box
    sx={{
@@ -130,17 +173,84 @@ export default function HeroSection() {
        <Typography variant="body1">ayush21929a@gmail.com</Typography>
       </Box>
 
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-       <MapPin size={16} />
-       <Typography variant="body1">Kanpur, India</Typography>
+       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Box sx={{ position: "relative", width: 16, height: 16 }}>
+        {[0, 0.6, 1.2].map((delay, idx) => (
+          <Box
+            key={idx}
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              width: 16,
+              height: 16,
+              borderRadius: "50%",
+              backgroundColor: "#4caf50",
+              transform: "translate(-50%, -50%) scale(0.8)",
+              opacity: 0.6,
+              animation: `${ripple} 2s ease-in-out infinite`,
+              animationDelay: `${delay}s`,
+              zIndex: 0,
+            }}
+          />
+        ))}
+
+        {/* Static center dot */}
+        <Box
+          sx={{
+            width: 8,
+            height: 8,
+            backgroundColor: "#4caf50",
+            borderRadius: "50%",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1,
+          }}
+        />
+
+        {/* MapPin icon */}
+        <MapPin
+          size={16}
+          style={{
+            position: "relative",
+            zIndex: 2,
+          }}
+        />
       </Box>
+
+      <Typography variant="body1">Kanpur, India</Typography>
+    </Box>
+
      </Box>
 
-     <Typography variant="body1" sx={{ mt: 2, opacity: 0.85 }}>
-      A goal-oriented software developer with experience in building web applications using modern
-      technologies like React, Next.js, and more. Seeking to leverage my technical skills to deliver
-      exceptional user experiences.
-     </Typography>
+     <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      style={{ display: "flex", flexWrap: "wrap", marginTop: 16 }}
+     >
+      {`A goal-oriented software developer with experience in building web applications using modern technologies like React, Next.js, and more. Seeking to leverage my technical skills to deliver exceptional user experiences.`
+       .split(" ")
+       .map((word, i) => (
+        <motion.span
+         key={i}
+         variants={wordVariants}
+         style={{
+          marginRight: "6px",
+          display: "inline-block",
+          fontSize: "1rem",
+          color: "rgba(255,255,255,0.85)",
+          fontFamily: "Inter, sans-serif",
+         }}
+        >
+         {word}
+        </motion.span>
+       ))}
+     </motion.div>
+
+
 
      {/* Buttons */}
      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 4 }}>
