@@ -1,5 +1,4 @@
 "use client";
-
 import { Box, keyframes, Typography } from "@mui/material";
 import { Github, Linkedin, Mail, FileText, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
@@ -14,12 +13,31 @@ export default function HeroSection() {
   { icon: <FileText size={32} />, label: "Resume" },
  ];
 
+
+ const tiltAndMove = keyframes`
+  0% {
+    transform: rotate(-5deg) translateZ(0) scale(1);
+  }
+  25% {
+    transform: rotate(0deg) translateZ(5px) scale(1.05);
+  }
+  50% {
+    transform: rotate(5deg) translateZ(0) scale(1);
+  }
+  75% {
+    transform: rotate(0deg) translateZ(-5px) scale(0.95);
+  }
+  100% {
+    transform: rotate(-5deg) translateZ(0) scale(1);
+  }
+`;
+
+
  // Button handlers
  const handleResume = () => window.open("/resume.pdf", "_blank");
  const handleGithub = () => window.open("https://github.com/yourusername", "_blank");
  const handleLinkedin = () => window.open("https://linkedin.com/in/yourprofile", "_blank");
  const handleMail = () => (window.location.href = "mailto:haquedot@gmail.com");
-
  // Button stylesdds
  const buttonSx = {
   backgroundColor: "rgba(255,255,255,0.15)",
@@ -41,14 +59,11 @@ export default function HeroSection() {
    boxShadow: "0 8px 16px rgba(255, 255, 255, 0.06)",
   },
  };
-
  const buttonSxResume = {
   ...buttonSx,
   width: 90,
  };
-
  const [loading, setLoading] = useState(true);
-
  useEffect(() => {
   // Simulate loading delay - replace with actual data fetch if needed
   const timer = setTimeout(() => setLoading(false), 2000);
@@ -69,7 +84,6 @@ export default function HeroSection() {
    },
   },
  };
-
  const waveVariants = {
   initial: { scale: 0, opacity: 0.5 },
   animate: {
@@ -82,18 +96,15 @@ export default function HeroSection() {
    },
   },
  };
-
  // Entrance animations for left and right sides
  const leftVariants = {
   initial: { y: 1, opacity: 0 },
   animate: { y: 120, opacity: 1, transition: { duration: 0.7, ease: "easeOut" } },
  };
-
  const rightVariants = {
   initial: { scale: 0, opacity: 0 },
   animate: { scale: 1, opacity: 1, transition: { duration: 0.7, ease: "easeOut" } },
  };
-
  const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -104,7 +115,6 @@ export default function HeroSection() {
    },
   },
  };
-
  const wordVariants = {
   hidden: {
    opacity: 0,
@@ -121,8 +131,6 @@ export default function HeroSection() {
    },
   },
  };
-
-
  const ripple = keyframes`
   0% {
     transform: translate(-50%, -50%) scale(0.8);
@@ -309,6 +317,16 @@ export default function HeroSection() {
        }}
       >
        {iconBoxes.map(({ icon, label }, i) => {
+
+
+        // Text for each corner circle based on index
+        const cornerTexts = ["ReactJS", "MUI", "Java Script", "Next JS"];
+        const cornerPositions = [
+         { top: -27, left: -8 },   // top-left corner, outside thoda bahar
+         { top: -33, right: -5 },  // top-right corner
+         { bottom: -33, left: -2 },// bottom-left corner
+         { bottom: -33, right: 2 },// bottom-right corner
+        ];
         const isGithubBox = label === "GitHub";
         return (
          <Box
@@ -320,6 +338,35 @@ export default function HeroSection() {
            borderRadius: 16,
           }}
          >
+          <Box
+           sx={{
+            position: "absolute",
+            ...cornerPositions[i],
+            border: "1px solid rgba(255,255,255,0.3)",
+            color: "white",
+            backgroundColor: "#121212",
+            borderRadius: "40px",
+            width: 88,
+            height: 28,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 13,
+            fontWeight: "500",
+            textAlign: "center",
+            pointerEvents: "none",
+            zIndex: 10,
+            padding: "6px",
+            lineHeight: 1.1,
+            userSelect: "none",
+            animation: `${tiltAndMove} 5s ease-in-out infinite`,
+            transformOrigin: "center bottom",
+            transformStyle: "preserve-3d",
+
+           }}
+          >
+           {cornerTexts[i]}
+          </Box>
           {isGithubBox && (
            <motion.div
             variants={waveVariants}
