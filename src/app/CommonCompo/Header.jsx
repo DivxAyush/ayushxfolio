@@ -11,9 +11,9 @@ export default function Header({ mode, toggleColorMode }) {
   <AppBar position="sticky">
    <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
     <Typography variant="h6" component="div">
-     Dummy Data
+     Ayush Kumar.
     </Typography>
-{/* ayush test */}
+    {/* ayush test */}
     <div>
      <Button color="inherit" href="#about">
       About
