@@ -11,7 +11,7 @@ export default function Header({ mode, toggleColorMode }) {
   <AppBar position="sticky">
    <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
     <Typography variant="h6" component="div">
-     Ayush Kumar.
+     Ayush Kumar.Y
     </Typography>
     {/* ayush test */}
     <div>

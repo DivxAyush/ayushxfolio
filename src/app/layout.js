@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 import Header from "./CommonCompo/Header";
 import { SpeedInsights } from "@vercel/speed-insights/next"
-
+import { Analytics } from "@vercel/analytics/next"
 export default function RootLayout({ children }) {
  const [mode, setMode] = useState("light");
 
@@ -52,6 +52,7 @@ export default function RootLayout({ children }) {
     <ThemeProvider theme={theme}>
      <CssBaseline />
      <SpeedInsights/>
+     <Analytics/>
      <Header mode={mode} toggleColorMode={toggleColorMode} />
      {children}
     </ThemeProvider>
