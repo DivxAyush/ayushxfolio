@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import LoadingOverlay from "./CommonCompo/LoadingOverlay";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import CursorFollower from "./CommonCompo/CursorFollower";
 export default function HeroSection() {
  const iconBoxes = [
   {
@@ -176,6 +177,8 @@ export default function HeroSection() {
    {/* Left side with slide-up animation */}
 
    <LoadingOverlay isLoading={loading} />
+<CursorFollower visible={!loading} />
+
 
    {/* Main Hero content */}
    {!loading && (
