@@ -4,13 +4,29 @@ import { Github, Linkedin, Mail, FileText, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import LoadingOverlay from "./CommonCompo/LoadingOverlay";
 import { useEffect, useState } from "react";
-
+import Image from "next/image";
 export default function HeroSection() {
  const iconBoxes = [
-  { icon: <Github size={32} />, label: "GitHub" },
-  { icon: <Linkedin size={32} />, label: "LinkedIn" },
-  { icon: <Mail size={32} />, label: "Mail" },
-  { icon: <FileText size={32} />, label: "Resume" },
+  {
+   icon: (<Image priority quality={90} src="/assets/image/icons8-react-24.png" alt="React Icon" width={32} height={32} />
+   ),
+   label: "ReactJS",
+  },
+  {
+   icon: (<Image priority quality={90} src="/assets/image/icons8-nextjs-48.png" alt="NextJS Icon" width={32} height={32} />
+   ),
+   label: "NextJS",
+  },
+  {
+   icon: (<Image priority quality={90} src="/assets/image/icons8-material-ui-48.png" alt="MUI Icon" width={32} height={32} />
+   ),
+   label: "MUI",
+  },
+  {
+   icon: (<Image priority quality={90} src="/assets/image/icons8-node-js-48.png" alt="NodeJS Icon" width={32} height={32} />
+   ),
+   label: "NodeJS",
+  },
  ];
 
 
@@ -37,7 +53,7 @@ export default function HeroSection() {
  const handleResume = () => window.open("/resume.pdf", "_blank");
  const handleGithub = () => window.open("https://github.com/yourusername", "_blank");
  const handleLinkedin = () => window.open("https://linkedin.com/in/yourprofile", "_blank");
- const handleMail = () => (window.location.href = "mailto:haquedot@gmail.com");
+ const handleMail = () => (window.location.href = "mailto:ayush21929a@gmail.com");
  // Button stylesdds
  const buttonSx = {
   backgroundColor: "rgba(255,255,255,0.15)",
@@ -164,6 +180,7 @@ export default function HeroSection() {
    {/* Main Hero content */}
    {!loading && (
     <>
+
      <motion.div
       variants={leftVariants}
       initial="initial"
@@ -302,32 +319,40 @@ export default function HeroSection() {
       variants={rightVariants}
       initial="initial"
       animate="animate"
-      style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
+      style={{
+       height: "100%",
+       display: "flex",
+       alignItems: "center",
+       justifyContent: "center",
+       width: "100%",        // <-- ADD THIS
+       flexShrink: 0,         // <-- PREVENT SHRINKING
+       overflow: "hidden",    // <-- PREVENT OVERFLOW
+      }}
      >
       <Box
        sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(2, 120px)",
+        gridTemplateColumns: { xs: "repeat(2, 100px)", sm: "repeat(2, 120px)" },
         gridTemplateRows: "repeat(2, 120px)",
         gap: 1,
         placeItems: "center",
         justifyContent: "center",
         alignContent: "center",
         height: "100%",
+        width: "100%",  // <-- ADD THIS TO AVOID OVERLAPPING
        }}
       >
        {iconBoxes.map(({ icon, label }, i) => {
 
-
-        // Text for each corner circle based on index
-        const cornerTexts = ["ReactJS", "MUI", "Java Script", "Next JS"];
+        const isReactBox = label === "ReactJS";
+        const cornerTexts = ["ReactJS", "NextJS", "MUI", "NodeJS"];
         const cornerPositions = [
          { top: -27, left: -8 },   // top-left corner, outside thoda bahar
          { top: -33, right: -5 },  // top-right corner
          { bottom: -33, left: -2 },// bottom-left corner
          { bottom: -33, right: 2 },// bottom-right corner
         ];
-        const isGithubBox = label === "GitHub";
+        const isGithubBox = label === "ReactJS";
         return (
          <Box
           key={i}
@@ -411,11 +436,22 @@ export default function HeroSection() {
              aria-label={label}
              role="img"
             >
-             {icon}
+             {isReactBox ? (
+              <motion.div
+               animate={{ rotate: 360 }}
+               transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
+               style={{ display: "inline-block" }} // avoid block level issues
+              >
+               {icon}
+              </motion.div>
+             ) : (
+              icon
+             )}
             </Box>
            </motion.div>
           ) : (
            <motion.div
+
             whileHover={{ scale: 1.1 }}
             style={{ width: "100%", height: "100%", cursor: "pointer" }}
            >
