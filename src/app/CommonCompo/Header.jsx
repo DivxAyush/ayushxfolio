@@ -47,7 +47,7 @@ export default function Header({ mode, toggleColorMode }) {
    
     <Toolbar sx={{ justifyContent: "space-between" }}>
      <Typography variant="h6" component="div">
-      Ayush Kumar.Y
+      Ayush Kumar.
      </Typography>
 
      {/* Desktop Menu */}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Typography } from "@mui/material";
+import { Typography, useMediaQuery } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -14,13 +14,16 @@ export default function LoadingOverlay({ isLoading }) {
   const [progress, setProgress] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const fullText = "Ayush Kumar";
-  const revealSpeed = 80; // ms per step
+  const revealSpeed = 80;
   const animationRef = useRef(null);
+
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
     let interval;
 
     if (isLoading) {
+      document.body.style.overflow = "hidden";
       setProgress(0);
       interval = setInterval(() => {
         setProgress((prev) => {
@@ -32,11 +35,15 @@ export default function LoadingOverlay({ isLoading }) {
         });
       }, 20);
     } else {
+      document.body.style.overflow = "auto";
       setProgress(0);
       setDisplayText("");
     }
 
-    return () => clearInterval(interval);
+    return () => {
+      document.body.style.overflow = "auto";
+      clearInterval(interval);
+    };
   }, [isLoading]);
 
   useEffect(() => {
@@ -77,13 +84,17 @@ export default function LoadingOverlay({ isLoading }) {
     };
   }, [isLoading]);
 
+  // Split display text into two parts for mobile
+  const firstWord = displayText.split(" ")[0] || "";
+  const secondWord = displayText.split(" ")[1] || "";
+
   return (
     <AnimatePresence>
       {isLoading && (
         <motion.div
           initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 1, y: "100vh" }}  
+          exit={{ opacity: 1, y: "100vh" }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           style={{
             position: "fixed",
@@ -97,32 +108,42 @@ export default function LoadingOverlay({ isLoading }) {
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
+            overflow: "hidden",
+            padding: "20px",
+            textAlign: "center",
           }}
         >
           <Typography
             sx={{
-              fontSize: "5rem",
+              fontSize: { xs: "3rem", sm: "5rem" },
               fontWeight: 700,
               color: "white",
               fontFamily: "'Courier New', Courier, monospace",
               userSelect: "none",
               letterSpacing: "0.1em",
-              whiteSpace: "pre",
+              lineHeight: 1.2,
             }}
           >
-            {displayText}
+            {isMobile ? (
+              <>
+                {firstWord}
+                <br />
+                {secondWord}
+              </>
+            ) : (
+              displayText
+            )}
           </Typography>
 
-          {/* Bottom-left Percentage Text */}
           <Typography
             sx={{
               position: "absolute",
               bottom: 20,
               left: 20,
-              fontSize: "4rem",
+              fontSize: { xs: "2rem", sm: "4rem" },
               fontWeight: 500,
               color: "white",
-              opacity: 0.4,
+              opacity: { xs: 0.2, sm: 0.4 },
               userSelect: "none",
             }}
           >

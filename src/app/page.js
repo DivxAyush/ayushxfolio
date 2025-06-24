@@ -87,6 +87,22 @@ export default function HeroSection() {
   return () => clearTimeout(timer);
  }, []);
 
+ const [waves, setWaves] = useState([]);
+
+ useEffect(() => {
+  const interval = setInterval(() => {
+   const id = Date.now(); // unique id for key
+   setWaves((prev) => [...prev, id]);
+
+   // Remove wave after animation duration
+   setTimeout(() => {
+    setWaves((prev) => prev.filter((waveId) => waveId !== id));
+   }, 2000);
+  }, 800); // new wave every 800ms
+
+  return () => clearInterval(interval);
+ }, []);
+
  // Framer Motion Variants
  const bounceVariants = {
   animate: {
@@ -102,13 +118,12 @@ export default function HeroSection() {
   },
  };
  const waveVariants = {
-  initial: { scale: 0, opacity: 0.5 },
+  initial: { scale: 0, opacity: 0.8 },
   animate: {
-   scale: [0, 1.5, 2],
-   opacity: [0.5, 0.2, 0],
+   scale: 1.4,
+   opacity: 0,
    transition: {
     duration: 2,
-    repeat: Infinity,
     ease: "easeOut",
    },
   },
@@ -177,7 +192,7 @@ export default function HeroSection() {
    {/* Left side with slide-up animation */}
 
    <LoadingOverlay isLoading={loading} />
-<CursorFollower visible={!loading} />
+   <CursorFollower visible={!loading} />
 
 
    {/* Main Hero content */}
@@ -356,6 +371,8 @@ export default function HeroSection() {
          { bottom: -33, right: 2 },// bottom-right corner
         ];
         const isGithubBox = label === "ReactJS";
+        const isMUI = label === "MUI";
+        
         return (
          <Box
           key={i}
@@ -395,25 +412,24 @@ export default function HeroSection() {
           >
            {cornerTexts[i]}
           </Box>
-          {isGithubBox && (
+          {isMUI && waves.map((id) => (
            <motion.div
+            key={id}
             variants={waveVariants}
             initial="initial"
             animate="animate"
             style={{
              position: "absolute",
-             top: "50%",
-             left: "50%",
-             width: 120,
-             height: 120,
+             top: 13,
+             left: 10,
+             width: 100,
+             height: 100,
              borderRadius: "50%",
-             border: "2px solid rgba(255,255,255,0.3)",
-             transform: "translate(-50%, -50%)",
+              border: "2px solid rgba(30, 167, 221, 0.9)",
              pointerEvents: "none",
-             zIndex: 0,
             }}
            />
-          )}
+          ))}
 
           {isGithubBox ? (
            <motion.div
