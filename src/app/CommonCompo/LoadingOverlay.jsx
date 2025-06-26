@@ -143,7 +143,7 @@ export default function LoadingOverlay({ isLoading }) {
               fontSize: { xs: "2rem", sm: "4rem" },
               fontWeight: 500,
               color: "white",
-              opacity: { xs: 0.2, sm: 0.4 },
+              opacity: { xs: 0.6, sm: 0.4 },  // <- Updated opacity for better mobile visibility
               userSelect: "none",
             }}
           >

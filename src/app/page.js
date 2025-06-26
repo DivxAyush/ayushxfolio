@@ -49,6 +49,14 @@ export default function HeroSection() {
   }
 `;
 
+ const moveDot = keyframes`
+  0%   { top: 0%; left: 0%; }
+  25%  { top: 0%; left: 100%; }
+  50%  { top: 100%; left: 100%; }
+  75%  { top: 100%; left: 0%; }
+  100% { top: 0%; left: 0%; }
+`;
+
 
  // Button handlers
  const handleResume = () => window.open("/resume.pdf", "_blank");
@@ -371,18 +379,12 @@ export default function HeroSection() {
          { bottom: -33, right: 2 },// bottom-right corner
         ];
         const isGithubBox = label === "ReactJS";
+        const isNodeBox = label === "NodeJS";
+
         const isMUI = label === "MUI";
-        
+
         return (
-         <Box
-          key={i}
-          sx={{
-           position: "relative",
-           width: 120,
-           height: 120,
-           borderRadius: 16,
-          }}
-         >
+         <Box key={i} sx={{ position: "relative", width: 120, height: 120, borderRadius: 16, }}  >
           <Box
            sx={{
             position: "absolute",
@@ -425,11 +427,47 @@ export default function HeroSection() {
              width: 100,
              height: 100,
              borderRadius: "50%",
-              border: "2px solid rgba(30, 167, 221, 0.9)",
+             border: "2px solid rgba(30, 167, 221, 0.9)",
              pointerEvents: "none",
             }}
            />
           ))}
+          {isNodeBox && (
+           <Box
+            sx={{
+             position: "absolute",
+             top: 0,
+             left: 0,
+             width: "100%",
+             height: "100%",
+             borderRadius: 3,
+             pointerEvents: "none",
+             zIndex: 3,
+            }}
+           >
+            {/* Glowing dot trail */}
+            {[0, 0.15, 0.3].map((delay, i) => (
+             <Box
+              key={i}
+              sx={{
+               position: "absolute",
+               width: 8 - i * 2, // reduce size for trail
+               height: 8 - i * 2,
+               borderRadius: "50%",
+               background: "rgba(0, 255, 0, 0.3)",
+               boxShadow: `0 0 ${10 - i * 3}px ${3 - i}px rgba(0, 255, 0, ${0.2 - i * 0.05})`,
+               animation: `${moveDot} 5s linear infinite`,
+               animationDelay: `${delay}s`,
+               transform: "translate(-50%, -50%)",
+              }}
+             />
+            ))}
+           </Box>
+          )}
+
+
+
+
 
           {isGithubBox ? (
            <motion.div
@@ -455,6 +493,7 @@ export default function HeroSection() {
              aria-label={label}
              role="img"
             >
+
              {isReactBox ? (
               <motion.div
                animate={{ rotate: 360 }}
@@ -493,6 +532,7 @@ export default function HeroSection() {
             >
              {icon}
             </Box>
+
            </motion.div>
           )}
          </Box>

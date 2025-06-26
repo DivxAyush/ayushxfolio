@@ -7,10 +7,9 @@ const CursorFollower = ({ visible = true }) => {
   const isMobile = useMediaQuery("(max-width:600px)"); // 📱 Detect mobile screens
 
   useEffect(() => {
-    if (isMobile) return; // ❌ Skip on mobile
+    if (isMobile) return;
 
     const dot = dotRef.current;
-
     let mouseX = 0;
     let mouseY = 0;
     let currentX = 0;
@@ -36,17 +35,18 @@ const CursorFollower = ({ visible = true }) => {
     const handleMouseEnter = () => setIsInWindow(true);
 
     document.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
-    window.addEventListener("mouseenter", handleMouseEnter);
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
 
     animate();
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", handleMouseLeave);
-      window.removeEventListener("mouseenter", handleMouseEnter);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
     };
   }, [isMobile]);
+
 
   if (isMobile) return null; // ❌ Don’t render on mobile
 
@@ -59,15 +59,22 @@ const CursorFollower = ({ visible = true }) => {
         left: 0,
         width: 10,
         height: 10,
-        borderRadius: "50%",
-        backgroundColor: "white",
+        backgroundColor: "transparent",  // <-- background ko transparent karo
         pointerEvents: "none",
         zIndex: 9999,
+        mixBlendMode: "difference",
         transform: "translate3d(0, 0, 0)",
         transition: "opacity 0.3s ease",
         opacity: visible && isInWindow ? 1 : 0,
-        mixBlendMode: "difference",
+        clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
+        boxShadow: "0 0 6px 2px rgba(255, 255, 255, 0.3)", // optional glow
+        borderLeft: "5px solid transparent",  // add borders to form triangle edges 
+        borderRight: "5px solid transparent",
+        borderBottom: "10px solid white",
+        width: 0,
+        height: 0,
       }}
+
     />
   );
 };
