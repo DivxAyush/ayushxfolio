@@ -13,10 +13,12 @@ export default function RootLayout({ children }) {
   if (savedMode === "light" || savedMode === "dark") {
    setMode(savedMode);
   } else {
-   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-   setMode(prefersDark ? "dark" : "light");
+   setMode("dark");  // Default dark mode
   }
  }, []);
+
+
+
 
  const theme = useMemo(
   () =>
@@ -51,8 +53,8 @@ export default function RootLayout({ children }) {
    <body>
     <ThemeProvider theme={theme}>
      <CssBaseline />
-     <SpeedInsights/>
-     <Analytics/>
+     <SpeedInsights />
+     <Analytics />
      <Header mode={mode} toggleColorMode={toggleColorMode} />
      {children}
     </ThemeProvider>

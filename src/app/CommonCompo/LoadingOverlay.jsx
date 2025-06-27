@@ -11,6 +11,7 @@ function getRandomChar() {
 }
 
 export default function LoadingOverlay({ isLoading }) {
+  const [mounted, setMounted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const fullText = "Ayush Kumar";
@@ -18,6 +19,10 @@ export default function LoadingOverlay({ isLoading }) {
   const animationRef = useRef(null);
 
   const isMobile = useMediaQuery("(max-width:600px)");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     let interval;
@@ -84,6 +89,9 @@ export default function LoadingOverlay({ isLoading }) {
     };
   }, [isLoading]);
 
+  // Don't render anything until mounted to avoid hydration mismatch
+  if (!mounted) return null;
+
   // Split display text into two parts for mobile
   const firstWord = displayText.split(" ")[0] || "";
   const secondWord = displayText.split(" ")[1] || "";
@@ -143,7 +151,7 @@ export default function LoadingOverlay({ isLoading }) {
               fontSize: { xs: "2rem", sm: "4rem" },
               fontWeight: 500,
               color: "white",
-              opacity: { xs: 0.6, sm: 0.4 },  // <- Updated opacity for better mobile visibility
+              opacity: { xs: 0.6, sm: 0.4 },
               userSelect: "none",
             }}
           >
