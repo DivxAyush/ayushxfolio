@@ -17,9 +17,6 @@ export default function RootLayout({ children }) {
   }
  }, []);
 
-
-
-
  const theme = useMemo(
   () =>
    createTheme({
@@ -44,11 +41,11 @@ export default function RootLayout({ children }) {
  return (
   <html lang="en">
    <head>
-    {/* Add Google Fonts link here */}
     <link
      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
      rel="stylesheet"
     />
+    <link rel="icon" href="/public/ayushkumar.png" />
    </head>
    <body>
     <ThemeProvider theme={theme}>

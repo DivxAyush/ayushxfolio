@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import CursorFollower from "./CommonCompo/CursorFollower";
 export default function HeroSection() {
+
  const iconBoxes = [
   {
    icon: (<Image priority quality={90} src="/assets/image/icons8-react-24.png" alt="React Icon" width={32} height={32} />
@@ -29,8 +30,6 @@ export default function HeroSection() {
    label: "NodeJS",
   },
  ];
-
-
  const tiltAndMove = keyframes`
   0% {
     transform: rotate(-5deg) translateZ(0) scale(1);
@@ -48,7 +47,6 @@ export default function HeroSection() {
     transform: rotate(-5deg) translateZ(0) scale(1);
   }
 `;
-
  const moveDot = keyframes`
   0%   { top: 0%; left: 0%; }
   25%  { top: 0%; left: 100%; }
@@ -56,14 +54,6 @@ export default function HeroSection() {
   75%  { top: 100%; left: 0%; }
   100% { top: 0%; left: 0%; }
 `;
-
-
- // Button handlers
- const handleResume = () => window.open("/resume.pdf", "_blank");
- const handleGithub = () => window.open("https://github.com/yourusername", "_blank");
- const handleLinkedin = () => window.open("https://linkedin.com/in/yourprofile", "_blank");
- const handleMail = () => (window.location.href = "mailto:ayush21929a@gmail.com");
- // Button stylesdds
  const buttonSx = {
   backgroundColor: "rgba(255,255,255,0.15)",
   backdropFilter: "blur(8px)",
@@ -88,30 +78,33 @@ export default function HeroSection() {
   ...buttonSx,
   width: 90,
  };
+
+ const handleResume = () => window.open("/resume.pdf", "_blank");
+ const handleGithub = () => window.open("https://github.com/yourusername", "_blank");
+ const handleLinkedin = () => window.open("https://linkedin.com/in/yourprofile", "_blank");
+ const handleMail = () => (window.location.href = "mailto:ayush21929a@gmail.com");
+
  const [loading, setLoading] = useState(true);
+ const [waves, setWaves] = useState([]);
+
+
  useEffect(() => {
-  // Simulate loading delay - replace with actual data fetch if needed
   const timer = setTimeout(() => setLoading(false), 2000);
   return () => clearTimeout(timer);
  }, []);
 
- const [waves, setWaves] = useState([]);
-
  useEffect(() => {
   const interval = setInterval(() => {
-   const id = Date.now(); // unique id for key
+   const id = Date.now();
    setWaves((prev) => [...prev, id]);
 
-   // Remove wave after animation duration
    setTimeout(() => {
     setWaves((prev) => prev.filter((waveId) => waveId !== id));
    }, 2000);
-  }, 800); // new wave every 800ms
-
+  }, 800);
   return () => clearInterval(interval);
  }, []);
 
- // Framer Motion Variants
  const bounceVariants = {
   animate: {
    y: [0, -15, 0],
@@ -136,7 +129,6 @@ export default function HeroSection() {
    },
   },
  };
- // Entrance animations for left and right sides
  const leftVariants = {
   initial: { y: 1, opacity: 0 },
   animate: { y: 120, opacity: 1, transition: { duration: 0.7, ease: "easeOut" } },
@@ -186,27 +178,17 @@ export default function HeroSection() {
 `;
 
  return (
-  <Box
-   sx={{
-    display: "grid",
-    gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
-    gap: 6,
-    minHeight: "100vh",
-    p: { xs: 3, sm: 6 },
-    fontFamily: "'Inter', sans-serif",
-    color: "white",
-   }}
-  >
-   {/* Left side with slide-up animation */}
+  <Box sx={{
+   display: "grid", gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" }, gap: 6, minHeight: "100vh", p: { xs: 3, sm: 6 },
+   fontFamily: "'Inter', sans-serif", color: "white",
+  }}  >
 
    <LoadingOverlay isLoading={loading} />
    <CursorFollower visible={!loading} />
 
-
    {/* Main Hero content */}
    {!loading && (
     <>
-
      <motion.div
       variants={leftVariants}
       initial="initial"
