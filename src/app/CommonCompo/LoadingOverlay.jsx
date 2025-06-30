@@ -146,7 +146,7 @@ export default function LoadingOverlay({ isLoading }) {
      <Typography
       sx={{
        position: "absolute",
-       bottom: 20,
+       bottom: { xs: 60, sm: 20 }, // ✅ Adjusted for mobile
        left: 20,
        fontSize: { xs: "2rem", sm: "4rem" },
        fontWeight: 500,
