@@ -6,6 +6,9 @@ import LoadingOverlay from "./CommonCompo/LoadingOverlay";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import CursorFollower from "./CommonCompo/CursorFollower";
+import BackgroundAnimation from "./CommonCompo/BackgroundAnimation";
+import BlobBackground from "./CommonCompo/BlobBackground";
+import StaggeredHearts from "./CommonCompo/StaggeredHearts";
 export default function HeroSection() {
 
  const iconBoxes = [
@@ -191,9 +194,9 @@ export default function HeroSection() {
     color: "white",
    }}
   >
-
-
-
+   {/* <StaggeredHearts /> */}
+   {/* <BlobBackground /> */}
+   <BackgroundAnimation />
    <LoadingOverlay isLoading={loading} />
    <CursorFollower visible={!loading} />
 
@@ -361,7 +364,7 @@ export default function HeroSection() {
         display: "grid",
         gridTemplateColumns: { xs: "repeat(2, 100px)", sm: "repeat(2, 120px)" },
         gridTemplateRows: "repeat(2, 120px)",
-         gap: { xs: 5, sm: 2 },
+        gap: { xs: 5, sm: 2 },
         mt: { xs: 10, sm: 0 },
         placeItems: "center",
         justifyContent: "center",
