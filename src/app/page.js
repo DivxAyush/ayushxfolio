@@ -178,10 +178,21 @@ export default function HeroSection() {
 `;
 
  return (
-  <Box sx={{
-   display: "grid", gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" }, gap: 6, minHeight: "100vh", p: { xs: 3, sm: 6 },
-   fontFamily: "'Inter', sans-serif", color: "white",
-  }}  >
+  <Box
+   sx={{
+    display: "grid",
+    gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
+    gap: 6,
+    minHeight: "calc(100vh - 64px)",
+    alignItems: "start",
+    p: { xs: 3, sm: 6 },
+    pt: 0,
+    fontFamily: "'Inter', sans-serif",
+    color: "white",
+   }}
+  >
+
+
 
    <LoadingOverlay isLoading={loading} />
    <CursorFollower visible={!loading} />
@@ -193,14 +204,20 @@ export default function HeroSection() {
       variants={leftVariants}
       initial="initial"
       animate="animate"
-      style={{ width: "100%" }}
+      style={{
+       width: "100%",
+       position: "relative",
+       
+      }}
      >
       <Box
        sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "flex-start",
+        mt: -3, // 👈 brings entire content higher
         gap: 2,
+        mt: { xs: -15, sm: 0 },
         maxWidth: 600,
        }}
       >
@@ -328,6 +345,8 @@ export default function HeroSection() {
       initial="initial"
       animate="animate"
       style={{
+       position: "relative",
+       marginTop: "24px",
        height: "100%",
        display: "flex",
        alignItems: "center",
@@ -343,6 +362,7 @@ export default function HeroSection() {
         gridTemplateColumns: { xs: "repeat(2, 100px)", sm: "repeat(2, 120px)" },
         gridTemplateRows: "repeat(2, 120px)",
         gap: 1,
+        mt: { xs: 10, sm: 0 },
         placeItems: "center",
         justifyContent: "center",
         alignContent: "center",
@@ -521,9 +541,10 @@ export default function HeroSection() {
         );
        })}
 
-
       </Box>
      </motion.div>
+
+     {/* <Token/> */}
     </>
    )}
   </Box>
