@@ -207,7 +207,7 @@ export default function HeroSection() {
       style={{
        width: "100%",
        position: "relative",
-       
+
       }}
      >
       <Box
@@ -361,7 +361,7 @@ export default function HeroSection() {
         display: "grid",
         gridTemplateColumns: { xs: "repeat(2, 100px)", sm: "repeat(2, 120px)" },
         gridTemplateRows: "repeat(2, 120px)",
-        gap: 1,
+         gap: { xs: 5, sm: 2 },
         mt: { xs: 10, sm: 0 },
         placeItems: "center",
         justifyContent: "center",
