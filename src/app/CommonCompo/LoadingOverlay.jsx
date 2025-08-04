@@ -5,20 +5,21 @@ import { Typography } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 
 const greetings = [
- "Hello",       // English
- "Hola",        // Spanish
- "Bonjour",     // French
- "नमस्ते",       // Hindi
- "Ciao",        // Italian
- "こんにちは",    // Japanese
- "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", // Punjabi
- "चलिए शुरू करते है"
+  "Hello",
+  "Hola",
+  "Bonjour",
+  "नमस्ते",
+  "Ciao",
+  "こんにちは",
+  "ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
+  "चलिए शुरू करते है",
 ];
-
-export default function LoadingOverlay() {
+export default function LoadingOverlay({ isLoading, onFinish, onHalfway }) {
  const [showOverlay, setShowOverlay] = useState(true);
  const [currentIndex, setCurrentIndex] = useState(0);
  const intervalRef = useRef(null);
+ const [exitStarted, setExitStarted] = useState(false);
+ const [hasTriggeredHalfway, setHasTriggeredHalfway] = useState(false);
 
  useEffect(() => {
   intervalRef.current = setInterval(() => {
@@ -36,6 +37,17 @@ export default function LoadingOverlay() {
   return () => clearInterval(intervalRef.current);
  }, []);
 
+ const handleAnimationUpdate = (latest) => {
+  if (
+   latest.y !== undefined &&
+   parseFloat(latest.y) < -50 && // ~halfway of -100%
+   !hasTriggeredHalfway
+  ) {
+   setHasTriggeredHalfway(true);
+   onHalfway?.();
+  }
+ };
+
  return (
   <AnimatePresence>
    {showOverlay && (
@@ -43,6 +55,8 @@ export default function LoadingOverlay() {
      initial={{ y: 0, opacity: 1 }}
      animate={{ y: 0, opacity: 1 }}
      exit={{ y: "-100%", opacity: 0 }}
+     onUpdate={handleAnimationUpdate}
+     onAnimationComplete={() => onFinish?.()}
      transition={{ duration: 0.8, ease: "easeInOut" }}
      style={{
       position: "fixed",
@@ -58,7 +72,6 @@ export default function LoadingOverlay() {
       overflow: "hidden",
      }}
     >
-     {/* Background A */}
      <Typography
       sx={{
        position: "absolute",
@@ -74,7 +87,6 @@ export default function LoadingOverlay() {
       A
      </Typography>
 
-     {/* Main Hello / Hola Text */}
      <motion.div
       key={currentIndex}
       initial={{ opacity: 0 }}
