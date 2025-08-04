@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 import Header from "./CommonCompo/Header";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
+import "../app/globals.css";
 export default function RootLayout({ children }) {
  const [mode, setMode] = useState("light");
 
@@ -24,8 +25,8 @@ export default function RootLayout({ children }) {
      mode,
     },
     typography: {
-     fontFamily: "'Inter', sans-serif",  // <-- Use Inter here
-    },
+    fontFamily: "'MyCustomFont', sans-serif",
+   },
    }),
   [mode]
  );
@@ -41,10 +42,10 @@ export default function RootLayout({ children }) {
  return (
   <html lang="en">
    <head>
-    <link
+    {/* <link
      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
      rel="stylesheet"
-    />
+    /> */}
    </head>
    <body>
     <ThemeProvider theme={theme}>

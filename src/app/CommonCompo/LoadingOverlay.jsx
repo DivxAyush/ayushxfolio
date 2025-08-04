@@ -1,162 +1,100 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Typography, useMediaQuery } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { Typography } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 
-const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const greetings = [
+ "Hello",       // English
+ "Hola",        // Spanish
+ "Bonjour",     // French
+ "नमस्ते",       // Hindi
+ "Ciao",        // Italian
+ "こんにちは",    // Japanese
+ "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", // Punjabi
+ "चलिए शुरू करते है"
+];
 
-function getRandomChar() {
- return chars.charAt(Math.floor(Math.random() * chars.length));
-}
-
-export default function LoadingOverlay({ isLoading }) {
- const [mounted, setMounted] = useState(false);
- const [progress, setProgress] = useState(0);
- const [displayText, setDisplayText] = useState("");
- const fullText = "Ayush Kumar";
- const revealSpeed = 80;
- const animationRef = useRef(null);
-
- const isMobile = useMediaQuery("(max-width:600px)");
-
- useEffect(() => {
-  setMounted(true);
- }, []);
+export default function LoadingOverlay() {
+ const [showOverlay, setShowOverlay] = useState(true);
+ const [currentIndex, setCurrentIndex] = useState(0);
+ const intervalRef = useRef(null);
 
  useEffect(() => {
-  let interval;
-
-  if (isLoading) {
-   document.body.style.overflow = "hidden";
-   setProgress(0);
-   interval = setInterval(() => {
-    setProgress((prev) => {
-     if (prev >= 100) {
-      clearInterval(interval);
-      return 100;
-     }
+  intervalRef.current = setInterval(() => {
+   setCurrentIndex((prev) => {
+    if (prev < greetings.length - 1) {
      return prev + 1;
-    });
-   }, 20);
-  } else {
-   document.body.style.overflow = "auto";
-   setProgress(0);
-   setDisplayText("");
-  }
-
-  return () => {
-   document.body.style.overflow = "auto";
-   clearInterval(interval);
-  };
- }, [isLoading]);
-
- useEffect(() => {
-  if (!isLoading) {
-   setDisplayText("");
-   if (animationRef.current) clearTimeout(animationRef.current);
-   return;
-  }
-
-  let revealedCount = 0;
-
-  function revealStep() {
-   if (revealedCount >= fullText.length) {
-    setDisplayText(fullText);
-    return;
-   }
-
-   let result = "";
-   for (let i = 0; i < fullText.length; i++) {
-    if (i < revealedCount) {
-     result += fullText[i];
-    } else if (fullText[i] === " ") {
-     result += " ";
     } else {
-     result += getRandomChar();
+     clearInterval(intervalRef.current);
+     setTimeout(() => setShowOverlay(false), 1000);
+     return prev;
     }
-   }
+   });
+  }, 250);
 
-   setDisplayText(result);
-   revealedCount++;
-   animationRef.current = setTimeout(revealStep, revealSpeed);
-  }
-
-  revealStep();
-
-  return () => {
-   if (animationRef.current) clearTimeout(animationRef.current);
-  };
- }, [isLoading]);
-
- // Don't render anything until mounted to avoid hydration mismatch
- if (!mounted) return null;
-
- // Split display text into two parts for mobile
- const firstWord = displayText.split(" ")[0] || "";
- const secondWord = displayText.split(" ")[1] || "";
+  return () => clearInterval(intervalRef.current);
+ }, []);
 
  return (
   <AnimatePresence>
-   {isLoading && (
+   {showOverlay && (
     <motion.div
-     initial={{ opacity: 1, y: 0 }}
-     animate={{ opacity: 1, y: 0 }}
-     exit={{ opacity: 1, y: "100vh" }}
-     transition={{ duration: 0.7, ease: "easeOut" }}
+     initial={{ y: 0, opacity: 1 }}
+     animate={{ y: 0, opacity: 1 }}
+     exit={{ y: "-100%", opacity: 0 }}
+     transition={{ duration: 0.8, ease: "easeInOut" }}
      style={{
       position: "fixed",
       top: 0,
       left: 0,
       width: "100vw",
       height: "100vh",
-      backgroundColor: "#121212",
-      zIndex: 1300,
+      backgroundColor: "#000",
+      zIndex: 9999,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      flexDirection: "column",
       overflow: "hidden",
-      padding: "20px",
-      textAlign: "center",
      }}
     >
-     <Typography
-      sx={{
-       fontSize: { xs: "3rem", sm: "5rem" },
-       fontWeight: 700,
-       color: "white",
-       fontFamily: "'Courier New', Courier, monospace",
-       userSelect: "none",
-       letterSpacing: "0.1em",
-       lineHeight: 1.2,
-      }}
-     >
-      {isMobile ? (
-       <>
-        {firstWord}
-        <br />
-        {secondWord}
-       </>
-      ) : (
-       displayText
-      )}
-     </Typography>
-
+     {/* Background A */}
      <Typography
       sx={{
        position: "absolute",
-       bottom: { xs: 60, sm: 20 }, // ✅ Adjusted for mobile
-       left: 20,
-       fontSize: { xs: "2rem", sm: "4rem" },
-       fontWeight: 500,
+       fontSize: { xs: "19rem", sm: "15rem" },
        color: "white",
-       opacity: { xs: 0.6, sm: 0.4 },
+       opacity: 0.05,
+       fontWeight: 900,
+       fontFamily: "'MyCustomFont2', monospace",
        userSelect: "none",
+       zIndex: 0,
       }}
      >
-      {progress}%
+      A
      </Typography>
+
+     {/* Main Hello / Hola Text */}
+     <motion.div
+      key={currentIndex}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      style={{ zIndex: 1 }}
+     >
+      <Typography
+       sx={{
+        fontSize: { xs: "2.5rem", sm: "4rem" },
+        fontWeight: 500,
+        color: "white",
+        fontFamily: "'MyCustomFont', sans-serif",
+        textAlign: "center",
+       }}
+      >
+       {greetings[currentIndex]}
+      </Typography>
+     </motion.div>
     </motion.div>
    )}
   </AnimatePresence>
