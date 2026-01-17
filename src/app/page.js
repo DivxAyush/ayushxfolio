@@ -71,7 +71,7 @@ export default function Home() {
       transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
       className="flex items-center gap-2 text-[90px] sm:text-[70px] md:text-[160px] font-extralight leading-none flex-wrap justify-center"
      >
-      <span>i'm</span>
+      <span>i'M</span>
       <Image
        src={profilePic}
        alt="Profile"
@@ -89,7 +89,7 @@ export default function Home() {
       transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
       className="text-[100px] sm:text-[50px] md:text-[110px] font-bold tracking-tight leading-none mt-[-10px]"
      >
-      Bringing Ideas to Reality
+      Bringing Ideas to Realityssssssss
      </motion.h2>
     </motion.div>
    )}
