@@ -40,7 +40,7 @@ export default function LoadingOverlay({ isLoading, onFinish, onHalfway }) {
  const handleAnimationUpdate = (latest) => {
   if (
    latest.y !== undefined &&
-   parseFloat(latest.y) < -50 && // ~halfway of -100%
+   parseFloat(latest.y) < -50 && 
    !hasTriggeredHalfway
   ) {
    setHasTriggeredHalfway(true);
