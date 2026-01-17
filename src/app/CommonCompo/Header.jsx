@@ -91,7 +91,7 @@ export default function Header() {
        fontSize: "0.875rem",
       }}
      >
-      <Image src={YourSvgIcon} alt="Menu" width={18} height={18} />
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-navigation-icon lucide-navigation"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
       Go to Menu
      </Button>
     </Box>
