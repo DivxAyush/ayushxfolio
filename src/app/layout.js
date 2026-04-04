@@ -3,30 +3,47 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 import Header from "./CommonCompo/Header";
+import SmoothScroll from "./CommonCompo/SmoothScroll";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 import "../app/globals.css";
+import { ThemeContext } from "./context/ThemeContext";
+
 export default function RootLayout({ children }) {
- const [mode, setMode] = useState("light");
+ const [mode, setMode] = useState("dark");
 
  useEffect(() => {
   const savedMode = localStorage.getItem("mode");
   if (savedMode === "light" || savedMode === "dark") {
    setMode(savedMode);
   } else {
-   setMode("dark");  // Default dark mode
+   setMode("dark");
   }
  }, []);
+
+ // Apply data-theme attribute on <html> for CSS variable switching
+ useEffect(() => {
+  document.documentElement.setAttribute("data-theme", mode);
+ }, [mode]);
 
  const theme = useMemo(
   () =>
    createTheme({
     palette: {
      mode,
+     ...(mode === "light"
+      ? {
+         background: { default: "#f5f5f5", paper: "#ffffff" },
+         text: { primary: "#0f0f0f", secondary: "rgba(0,0,0,0.65)" },
+        }
+      : {
+         background: { default: "#000000", paper: "#0a0a0a" },
+         text: { primary: "#ffffff", secondary: "rgba(255,255,255,0.7)" },
+        }),
     },
     typography: {
-    fontFamily: "'MyCustomFont', sans-serif",
-   },
+     fontFamily: "'MyCustomFont', sans-serif",
+    },
    }),
   [mode]
  );
@@ -40,21 +57,20 @@ export default function RootLayout({ children }) {
  };
 
  return (
-  <html lang="en">
-   <head>
-    {/* <link
-     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
-     rel="stylesheet"
-    /> */}
-   </head>
+  <html lang="en" data-theme={mode}>
+   <head />
    <body>
-    <ThemeProvider theme={theme}>
-     <CssBaseline />
-     <SpeedInsights />
-     <Analytics />
-     <Header mode={mode} toggleColorMode={toggleColorMode} />
-     {children}
-    </ThemeProvider>
+    <ThemeContext.Provider value={{ mode, toggleColorMode }}>
+     <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <SpeedInsights />
+      <Analytics />
+      <Header mode={mode} toggleColorMode={toggleColorMode} />
+      <SmoothScroll>
+       {children}
+      </SmoothScroll>
+     </ThemeProvider>
+    </ThemeContext.Provider>
    </body>
   </html>
  );

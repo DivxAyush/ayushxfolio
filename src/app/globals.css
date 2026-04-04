@@ -19,24 +19,75 @@
   font-display: swap;
 }
 
-/* CSS Variables and Theming */
+/* ─── CSS Variables ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #080808;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-border: rgba(255, 255, 255, 0.08);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.4);
+  --accent: #ff4d00;
+  --accent-soft: rgba(255, 77, 0, 0.12);
+  --accent-border: rgba(255, 77, 0, 0.25);
   --font-sans: 'MyCustomFont', sans-serif;
   --font-mono: 'MyCustomFont2', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── LIGHT MODE overrides ─── */
+[data-theme="light"] {
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #ebebeb;
+  --bg-card: rgba(0, 0, 0, 0.03);
+  --bg-card-border: rgba(0, 0, 0, 0.09);
+  --text-primary: #0f0f0f;
+  --text-secondary: rgba(0, 0, 0, 0.65);
+  --text-muted: rgba(0, 0, 0, 0.4);
+  --accent: #e03e00;
+  --accent-soft: rgba(224, 62, 0, 0.1);
+  --accent-border: rgba(224, 62, 0, 0.25);
 }
 
-/* Apply font and colors globally */
+/* ─── Global body ─── */
+html {
+  scroll-behavior: auto; /* GSAP handles smooth scroll */
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-sans);
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+/* ─── Uniform section background — all sections match the hero ─── */
+.section-uniform {
+  background: var(--bg-primary) !important;
+}
+
+/* kept for backward compat but now all map to primary */
+.section-bg-1, .section-bg-2, .section-bg-3, .section-bg-alt {
+  background: var(--bg-primary);
+}
+
+/* ─── Shared card styles ─── */
+.portfolio-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* ─── Remove default scrollbar ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 77, 0, 0.3);
+  border-radius: 4px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(224, 62, 0, 0.3);
 }

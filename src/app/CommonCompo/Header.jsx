@@ -7,17 +7,20 @@ import {
  Typography,
  Box,
  Button,
+ IconButton,
+ Tooltip,
  useMediaQuery,
 } from "@mui/material";
 import { useTheme, keyframes } from "@mui/material/styles";
-import { Globe } from "lucide-react";
+import { Globe, Moon, Sun } from "lucide-react";
 import MenuDrawer from "./MenuDrawer";
 
-export default function Header() {
+export default function Header({ mode, toggleColorMode }) {
  const theme = useTheme();
  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
  const [drawerOpen, setDrawerOpen] = useState(false);
  const [time, setTime] = useState("");
+ const [scrolled, setScrolled] = useState(false);
 
  useEffect(() => {
   const updateTime = () => {
@@ -35,6 +38,12 @@ export default function Header() {
   return () => clearInterval(interval);
  }, []);
 
+ useEffect(() => {
+  const onScroll = () => setScrolled(window.scrollY > 20);
+  window.addEventListener("scroll", onScroll);
+  return () => window.removeEventListener("scroll", onScroll);
+ }, []);
+
  const rotate = keyframes`
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -43,26 +52,72 @@ export default function Header() {
  return (
   <>
    <AppBar
-    position="sticky"
+    position="fixed"
     elevation={0}
     sx={{
-     backgroundColor: "transparent",
-     backdropFilter: "blur(8px)",
+     backgroundColor: scrolled
+      ? mode === "dark"
+        ? "rgba(0,0,0,0.85)"
+        : "rgba(255,255,255,0.85)"
+      : "transparent",
+     backdropFilter: "blur(12px)",
+     borderBottom: scrolled
+      ? `1px solid ${mode === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`
+      : "none",
+     transition: "background-color 0.3s ease, border-bottom 0.3s ease",
     }}
    >
     <Toolbar sx={{ justifyContent: "space-between", px: { xs: 2, sm: 4 } }}>
-     <Typography variant="h6">Ayush Kumar.</Typography>
+     <Typography
+      variant="h6"
+      sx={{
+       fontFamily: "'MyCustomFont', sans-serif",
+       fontWeight: 700,
+       letterSpacing: 1,
+       color: mode === "dark" ? "#fff" : "#000",
+      }}
+     >
+      Ayush Kumar.
+     </Typography>
 
      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
       {!isMobile && (
        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Globe
          size={18}
+         color={mode === "dark" ? "#fff" : "#000"}
          style={{ animation: `${rotate} 6s linear infinite` }}
         />
-        <Typography variant="body2">IN {time}</Typography>
+        <Typography
+         variant="body2"
+         sx={{ color: mode === "dark" ? "#fff" : "#000" }}
+        >
+         IN {time}
+        </Typography>
        </Box>
       )}
+
+      {/* Dark / Light Toggle */}
+      <Tooltip title={mode === "dark" ? "Light mode" : "Dark mode"}>
+       <IconButton
+        onClick={toggleColorMode}
+        sx={{
+         color: mode === "dark" ? "#fff" : "#000",
+         backgroundColor:
+          mode === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+         borderRadius: "50%",
+         width: 38,
+         height: 38,
+         "&:hover": {
+          backgroundColor:
+           mode === "dark" ? "rgba(255,255,255,0.16)" : "rgba(0,0,0,0.16)",
+         },
+         transition: "all 0.2s ease",
+        }}
+       >
+        {mode === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+       </IconButton>
+      </Tooltip>
 
       <Button
        variant="outlined"
@@ -71,12 +126,20 @@ export default function Header() {
         gap: 1,
         px: 2,
         py: 1,
-        borderColor: "white",
-        color: "white",
+        borderColor: mode === "dark" ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)",
+        color: mode === "dark" ? "#fff" : "#000",
         borderRadius: "9999px",
         backdropFilter: "blur(8px)",
-        backgroundColor: "rgba(255,255,255,0.1)",
+        backgroundColor:
+         mode === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
         textTransform: "none",
+        fontFamily: "'MyCustomFont', sans-serif",
+        "&:hover": {
+         backgroundColor:
+          mode === "dark" ? "rgba(255,255,255,0.16)" : "rgba(0,0,0,0.12)",
+         borderColor: mode === "dark" ? "#fff" : "#000",
+        },
+        transition: "all 0.2s ease",
        }}
       >
        Go to Menu
