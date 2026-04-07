@@ -137,7 +137,7 @@ function SpotifyEmbed({ trackId, color }) {
 }
 
 // ─── MAIN COMPONENT ───
-export default function AboutHome({ aboutImgRef }) {
+export default function AboutHome() {
  const [activeSong, setActiveSong] = useState(null);
  const toggleSong = (id) => setActiveSong((p) => (p === id ? null : id));
  const activeSongData = SONGS.find((s) => s.id === activeSong);
@@ -165,47 +165,8 @@ export default function AboutHome({ aboutImgRef }) {
      about me
     </p>
 
-    {/* ── Heading with floating 3D image behind it ── */}
+    {/* ── Heading ── */}
     <div style={{ position: "relative", marginBottom: 60 }}>
-     {/* Ghost profile image — positioned behind the heading, GSAP-animated from 3D */}
-     <div
-      ref={aboutImgRef}
-      style={{
-       position: "absolute",
-       right: "clamp(0px, 5%, 80px)",
-       top: "50%",
-       transform: "translateY(-50%) rotateY(-18deg) rotateX(8deg)",
-       transformStyle: "preserve-3d",
-       transformOrigin: "center center",
-       zIndex: 0,
-       opacity: 0,           /* starts invisible — GSAP animates opacity in */
-       pointerEvents: "none",
-       willChange: "transform, opacity",
-       filter: "blur(0.5px)",
-      }}
-     >
-      <Image
-       src={profilePic}
-       alt="Ayush 3D"
-       width={220}
-       unoptimized
-       style={{
-        objectFit: "cover",
-        borderRadius: "16px",
-        display: "block",
-        boxShadow: "0 24px 60px rgba(0,0,0,0.35)",
-       }}
-      />
-      {/* Subtle gradient overlay so image blends with text */}
-      <div style={{
-       position: "absolute",
-       inset: 0,
-       background: "linear-gradient(135deg, transparent 40%, var(--bg-primary) 100%)",
-       borderRadius: "16px",
-      }} />
-     </div>
-
-     {/* Heading — sits in front of the image (zIndex: 1) */}
      <h2
       data-gsap="heading"
       style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 700, lineHeight: 1.1, margin: 0, fontFamily: "'MyCustomFont', sans-serif", color: "var(--text-primary)", position: "relative", zIndex: 1 }}

@@ -39,7 +39,7 @@ function ProjectCard({ project }) {
 
    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
     <div>
-     <span style={{ fontSize: 11, color: project.accent, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "'MyCustomFont', sans-serif" }}>{project.year}</span>
+     <span style={{ fontSize: 11, color: project.accent, margin: 0, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "'MyCustomFont', sans-serif" }}>{project.year}</span>
      <h3 style={{ margin: "6px 0 0", fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", fontWeight: 700, color: "var(--text-primary)", fontFamily: "'MyCustomFont', sans-serif" }}>{project.title}</h3>
     </div>
     <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>

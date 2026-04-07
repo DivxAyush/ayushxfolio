@@ -9,11 +9,35 @@ import { Analytics } from "@vercel/analytics/next"
 import "../app/globals.css";
 import { ThemeContext } from "./context/ThemeContext";
 
+const THEME_INIT_SCRIPT = `
+(() => {
+  try {
+    const savedMode = localStorage.getItem("mode");
+    const mode = savedMode === "light" || savedMode === "dark" ? savedMode : "dark";
+    document.documentElement.setAttribute("data-theme", mode);
+  } catch (error) {
+    document.documentElement.setAttribute("data-theme", "dark");
+  }
+})();
+`;
+
 export default function RootLayout({ children }) {
- const [mode, setMode] = useState("dark");
+ const [mode, setMode] = useState(() => {
+  if (typeof window === "undefined") {
+   return "dark";
+  }
+
+  const savedMode = window.localStorage.getItem("mode");
+  if (savedMode === "light" || savedMode === "dark") {
+   return savedMode;
+  }
+
+  const htmlMode = document.documentElement.getAttribute("data-theme");
+  return htmlMode === "light" || htmlMode === "dark" ? htmlMode : "dark";
+ });
 
  useEffect(() => {
-  const savedMode = localStorage.getItem("mode");
+  const savedMode = window.localStorage.getItem("mode");
   if (savedMode === "light" || savedMode === "dark") {
    setMode(savedMode);
   } else {
@@ -57,8 +81,10 @@ export default function RootLayout({ children }) {
  };
 
  return (
-  <html lang="en" data-theme={mode}>
-   <head />
+  <html lang="en" data-theme={mode} suppressHydrationWarning>
+   <head>
+    <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+   </head>
    <body>
     <ThemeContext.Provider value={{ mode, toggleColorMode }}>
      <ThemeProvider theme={theme}>
