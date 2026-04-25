@@ -1,13 +1,14 @@
 "use client";
 
 import { Drawer, Box, Typography, IconButton, Divider } from "@mui/material";
-import { X, ArrowUpRight, Code2, Braces, Layers } from "lucide-react";
+import { X, ArrowUpRight, Code2, Braces, Layers, Gamepad2 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import DecorativeShape from "./DecorativeShape";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useAppTheme } from "../context/ThemeContext";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -18,6 +19,10 @@ const NAV_ITEMS = [
  { label: "Experience", id: "section-experience", num: "04" },
  { label: "Education",  id: "section-education",  num: "05" },
  { label: "Contact",    id: "section-contact",    num: "06" },
+];
+
+const ROUTE_ITEMS = [
+ { label: "Activity", href: "/activity", num: "07", icon: <Gamepad2 size={14} /> },
 ];
 
 const SOCIALS = [
@@ -352,6 +357,33 @@ export default function MenuDrawer({ open, onClose }) {
         isDark={isDark}
        />
       </Box>
+     ))}
+    </Box>
+
+    {/* ── Route items ── */}
+    <Box sx={{ pl: 2, mb: 1 }}>
+     <Typography sx={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)", mb: 1.2, fontFamily: "'MyCustomFont', sans-serif" }}>
+      Explore
+     </Typography>
+     {ROUTE_ITEMS.map((item) => (
+      <motion.div
+       key={item.href}
+       whileHover="hover"
+       initial="rest"
+       animate="rest"
+      >
+       <Link href={item.href} onClick={onClose} style={{ textDecoration: "none" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, py: 0.8, cursor: "pointer" }}>
+         <Box sx={{ width: 28, height: 28, borderRadius: "8px", background: "rgba(255,77,0,0.12)", border: "1px solid rgba(255,77,0,0.25)", display: "flex", alignItems: "center", justifyContent: "center", color: "#ff4d00", flexShrink: 0 }}>
+          {item.icon}
+         </Box>
+         <Typography sx={{ fontSize: "clamp(16px, 3vw, 20px)", fontWeight: 700, fontFamily: "'MyCustomFont', sans-serif", color: isDark ? "#fff" : "#0f0f0f", transition: "color 0.2s", "&:hover": { color: "#ff4d00" } }}>
+          {item.label}
+         </Typography>
+         <ArrowUpRight size={14} color="#ff4d00" style={{ opacity: 0.7 }} />
+        </Box>
+       </Link>
+      </motion.div>
      ))}
     </Box>
 

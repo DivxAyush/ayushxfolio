@@ -123,13 +123,14 @@ function SpotifyEmbed({ trackId, color }) {
    }}
   >
    <iframe
-    src={`https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`}
+    key={trackId}
+    src={`https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0&autoplay=1`}
     width="100%"
     height="80"
     frameBorder="0"
     allowFullScreen=""
     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-    loading="lazy"
+    loading="eager"
     style={{ display: "block" }}
    />
   </motion.div>
