@@ -74,7 +74,7 @@ export default function Header({ mode, toggleColorMode }) {
        fontFamily: "'MyCustomFont', sans-serif",
        fontWeight: 700,
        letterSpacing: 1,
-       color: mode === "dark" ? "#fff" : "#000",
+       color: scrolled ? (mode === "dark" ? "#fff" : "#000") : "#fff",
       }}
      >
       Ayush Kumar.
@@ -85,12 +85,12 @@ export default function Header({ mode, toggleColorMode }) {
        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Globe
          size={18}
-         color={mode === "dark" ? "#fff" : "#000"}
+         color={scrolled ? (mode === "dark" ? "#fff" : "#000") : "#fff"}
          style={{ animation: `${rotate} 6s linear infinite` }}
         />
         <Typography
          variant="body2"
-         sx={{ color: mode === "dark" ? "#fff" : "#000" }}
+         sx={{ color: scrolled ? (mode === "dark" ? "#fff" : "#000") : "#fff" }}
         >
          IN {time}
         </Typography>
@@ -102,15 +102,17 @@ export default function Header({ mode, toggleColorMode }) {
        <IconButton
         onClick={toggleColorMode}
         sx={{
-         color: mode === "dark" ? "#fff" : "#000",
-         backgroundColor:
-          mode === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+         color: scrolled ? (mode === "dark" ? "#fff" : "#000") : "#fff",
+         backgroundColor: scrolled
+          ? (mode === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)")
+          : "rgba(255,255,255,0.08)",
          borderRadius: "50%",
          width: 38,
          height: 38,
          "&:hover": {
-          backgroundColor:
-           mode === "dark" ? "rgba(255,255,255,0.16)" : "rgba(0,0,0,0.16)",
+          backgroundColor: scrolled
+           ? (mode === "dark" ? "rgba(255,255,255,0.16)" : "rgba(0,0,0,0.16)")
+           : "rgba(255,255,255,0.16)",
          },
          transition: "all 0.2s ease",
         }}
@@ -126,18 +128,22 @@ export default function Header({ mode, toggleColorMode }) {
         gap: 1,
         px: 2,
         py: 1,
-        borderColor: mode === "dark" ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)",
-        color: mode === "dark" ? "#fff" : "#000",
+        borderColor: scrolled
+         ? (mode === "dark" ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)")
+         : "rgba(255,255,255,0.5)",
+        color: scrolled ? (mode === "dark" ? "#fff" : "#000") : "#fff",
         borderRadius: "9999px",
         backdropFilter: "blur(8px)",
-        backgroundColor:
-         mode === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
+        backgroundColor: scrolled
+         ? (mode === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)")
+         : "rgba(255,255,255,0.08)",
         textTransform: "none",
         fontFamily: "'MyCustomFont', sans-serif",
         "&:hover": {
-         backgroundColor:
-          mode === "dark" ? "rgba(255,255,255,0.16)" : "rgba(0,0,0,0.12)",
-         borderColor: mode === "dark" ? "#fff" : "#000",
+         backgroundColor: scrolled
+          ? (mode === "dark" ? "rgba(255,255,255,0.16)" : "rgba(0,0,0,0.12)")
+          : "rgba(255,255,255,0.16)",
+         borderColor: scrolled ? (mode === "dark" ? "#fff" : "#000") : "#fff",
         },
         transition: "all 0.2s ease",
        }}

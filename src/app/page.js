@@ -7,6 +7,7 @@ import LoadingOverlay from "./CommonCompo/LoadingOverlay";
 import { useScrambleText } from "./CommonCompo/useScrambleText";
 import DotGrid from "./CommonCompo/DotGrid";
 import { useTransform, motion, useScroll } from "framer-motion";
+import SpaceHero from "../ShowCaseCompo/SpaceHero";
 import AboutHome from "../ShowCaseCompo/AboutHome";
 import Projects from "../ShowCaseCompo/Projects";
 import Experience from "../ShowCaseCompo/Experience";
@@ -86,78 +87,7 @@ export default function Home() {
    <LoadingOverlay isLoading={loading} onHalfway={handleOverlayHalfway} onFinish={handleOverlayFinish} />
 
  
-   {/* ─── HERO ─── */}
-   <section
-    id="section-home"
-    style={{
-     position: "relative",
-     width: "100%",
-     height: "100vh",
-     background: "var(--bg-primary)",
-     color: "var(--text-primary)",
-     overflow: "hidden",
-    }}
-   >
-    <DotGrid mode={mode} />
-
-    {/* AYUSH ghost text */}
-    {animateContent && (
-     <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", zIndex: 2 }}>
-      <motion.div style={{ y: bgY }}>
-       <h1 style={{ fontFamily: "'MyCustomFont2', monospace", fontWeight: 900, opacity: 0.1, userSelect: "none", lineHeight: 1, fontSize: "clamp(140px, 20vw, 280px)", whiteSpace: "nowrap", color: "var(--text-primary)", margin: 0 }}>
-        {scrambledText}
-       </h1>
-      </motion.div>
-     </div>
-    )}
-
-    {/* Hero foreground */}
-    {startForegroundAnimation && (
-     <motion.div
-      initial={{ opacity: 0, y: 100 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1, ease: "easeOut" }}
-      style={{ position: "absolute", inset: 0, zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 16px", pointerEvents: "none" }}
-     >
-      <motion.div
-       initial={{ opacity: 0, y: 50 }}
-       animate={{ opacity: 1, y: 0 }}
-       transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-       style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "clamp(60px, 12vw, 160px)", fontWeight: 200, lineHeight: 1, flexWrap: "wrap", justifyContent: "center", color: "var(--text-primary)", pointerEvents: "auto" }}
-      >
-       <span>i'm</span>
-
-       {/* Original hero image */}
-       <div style={{ display: "inline-block" }}>
-        <Image
-         src={profilePic}
-         alt="Profile"
-         width={150}
-         unoptimized
-         style={{ objectFit: "cover", borderRadius: "6px", display: "block" }}
-        />
-       </div>
-
-       <span>ayush</span>
-      </motion.div>
-
-      <motion.h2
-       initial={{ opacity: 0, y: 50 }}
-       animate={{ opacity: 1, y: 0 }}
-       transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-       style={{ fontSize: "clamp(28px, 7vw, 100px)", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1, marginTop: "-4px", color: "var(--text-primary)", fontFamily: "'MyCustomFont', sans-serif" }}
-      >
-       Bringing Ideas to Reality
-      </motion.h2>
-
-      {/* Scroll cue */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2, duration: 0.8 }} style={{ position: "absolute", bottom: 36, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-       <span style={{ fontSize: 11, letterSpacing: "0.18em", color: "var(--text-muted)", fontFamily: "'MyCustomFont', sans-serif", textTransform: "uppercase" }}>Scroll</span>
-       <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }} style={{ width: 1, height: 40, background: "var(--text-muted)" }} />
-      </motion.div>
-     </motion.div>
-    )}
-   </section>
+   <SpaceHero startAnimation={startForegroundAnimation} />
 
    <AboutHome />
    <Projects />
